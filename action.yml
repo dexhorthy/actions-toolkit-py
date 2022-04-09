@@ -1,0 +1,19 @@
+name: 'actions-toolkit-py'
+description: 'Run a python script with some baked-in utility functions'
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+  script:
+    description: 'Python script to run'
+    required: true
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - |
+      echo '${{ inputs.script }}' >> /work/script.py
+      /work/script.py
+  env:
+    GITHUB_TOKEN: ${{ inputs.github-token }}
