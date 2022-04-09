@@ -18,7 +18,13 @@ runs:
   args:
     - |
       echo '${{ inputs.event }}' >> /work/event.json
+      echo ---------
+      echo ---------
+      echo ---------
       cat /work/event.json
+      echo ---------
+      echo ---------
+      echo ---------
       cat <<EOF >> /work/script.py
       ${{ inputs.script }}
       EOF
