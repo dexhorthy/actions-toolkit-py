@@ -1,0 +1,47 @@
+name: Issue Comments
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  check_comments:
+    name: Apply Slash Commands from Issue Comment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Test this Action
+        id: test-action
+        uses: ./
+        if: >
+          contains(join(github.event.issue.labels.*.name, ' '), 'kind::inbound-escalation')
+          && (
+            contains(github.event.comment.body, '/open')
+            || contains(github.event.comment.body, '/pending')
+            || contains(github.event.comment.body, '/close')
+          )
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          event: ${{ github.event }}
+          script: |
+            from github_project import move_card_to_column
+
+            owner = '${{ github.event.issue.owner }}'
+            repo = '${{ github.event.issue.repo }}'
+            issue_content_url = '${{ github.event.issue.url }}'
+
+
+            column = "Open"
+            if '/pending' in '${{ github.event.comment.body }}':
+              column = "Pending"
+            elif '/close' in '${{ github.event.comment.body }}':
+              column = "Closed"
+
+            move_card_to_column(
+              owner=owner,
+              repo=repo,
+              issue_content_url=issue_content_url,
+              project="Inbound Escalations",
+              column=column,
+            )
+

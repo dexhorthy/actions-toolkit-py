@@ -8,12 +8,17 @@ inputs:
     description: 'Python script to run'
     required: true
     default: ''
+  event:
+    description: 'The GitHub Event Object'
+    required: true
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - |
       echo '${{ inputs.script }}' >> /work/script.py
+      echo '${{ inputs.event }}' >> /work/event.json
       /work/script.py
   env:
     GITHUB_TOKEN: ${{ inputs.github-token }}
