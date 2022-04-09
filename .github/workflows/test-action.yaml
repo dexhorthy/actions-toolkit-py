@@ -24,6 +24,6 @@ jobs:
 
             import json
             import os
-            with os.open('/work/event.json') as f:
+            with os.open('/work/event.json', 'r') as f:
               obj = json.load(f)
             print(json.dumps(obj))
