@@ -16,3 +16,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             print("hello, world")
+            three = 1 + 2
+            print(three)
