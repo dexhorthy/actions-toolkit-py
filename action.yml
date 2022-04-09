@@ -17,17 +17,11 @@ runs:
   image: 'Dockerfile'
   args:
     - |
-      echo '${{ inputs.event }}' >> /work/event.json
-      echo ---------
-      echo ---------
-      echo ---------
-      cat /work/event.json
-      echo ---------
-      echo ---------
-      echo ---------
       cat <<EOF >> /work/script.py
       ${{ inputs.script }}
       EOF
+      
       /work/script.py
+      
   env:
     GITHUB_TOKEN: ${{ inputs.github-token }}
