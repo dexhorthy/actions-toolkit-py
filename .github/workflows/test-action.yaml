@@ -20,3 +20,10 @@ jobs:
             print("hello, world")
             three = 1 + 2
             print(three)
+
+
+            import json
+            import os
+            with os.open('/work/event.json') as f:
+              obj = json.load(f)
+            print(json.dumps(obj))
